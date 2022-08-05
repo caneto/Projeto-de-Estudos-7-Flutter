@@ -7,7 +7,21 @@ final String phoneColumn = "phoneColumn";
 final String imgColumn = "imgColumn";
 
 class ContactHelp {
+  static final ContactHelp _instance = ContactHelp.internal();
 
+  factory ContactHelp() => _instance;
+
+  ContactHelp.internal();
+
+  Database? _db;
+
+  get db {
+    if(_db != null) {
+      return _db;
+    } else {
+      _db = initDb();
+    }
+  }
 }
 
 class Contact {
