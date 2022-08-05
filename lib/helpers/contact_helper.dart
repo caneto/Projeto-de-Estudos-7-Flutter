@@ -1,5 +1,7 @@
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+final String contactTable = "contactTable";
 final String idColumn = "idColumn";
 final String nameColumn = "nameColumn";
 final String emailColumn = "emailColumn";
@@ -13,14 +15,26 @@ class ContactHelp {
 
   ContactHelp.internal();
 
-  Database? _db;
+  Database _db;
 
-  get db {
+  Future<Database> get db async {
     if(_db != null) {
       return _db;
     } else {
-      _db = initDb();
+      _db = await initDb();
+      return _db;
     }
+  }
+
+  Future<Database> initDb() async {
+    final databasePath = await getDatabasesPath();
+    final path = join(databasePath, "Contacts.db");
+    
+    return await openDatabase(path, version: 1, onCreate: (Database db, int newerVersion) async {
+      await db.execute(
+          "CREATE TABLE $contactTable($idColumn INTERNAL PRIMARY KEY, $nameColumn TEXT, $emailColumn TEXT, $phoneColumn TEXT, $imgColumn TEXT)"
+      );
+    });
   }
 }
 
