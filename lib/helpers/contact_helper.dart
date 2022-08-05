@@ -27,7 +27,7 @@ class ContactHelp {
 
   Future<Database> initDb() async {
     final databasePath = await getDatabasesPath();
-    final path = join(databasePath, "Contacts.db");
+    final path = join(databasePath, "contacts_oficial.db");
     
     return await openDatabase(path, version: 1, onCreate: (Database db, int newerVersion) async {
       await db.execute(
@@ -96,6 +96,8 @@ class Contact {
   String? email;
   String? phone;
   String? img;
+
+  Contact();
 
   Contact.fromMap(Map map) {
     id = map[idColumn];
