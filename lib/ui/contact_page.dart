@@ -117,7 +117,7 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 
-  Future<bool> _requestPor() {
+  Future<bool> _requestPop() {
     if(_userEdited) {
       showDialog(
           context: context,

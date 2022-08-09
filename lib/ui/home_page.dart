@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:agendadecontatos/helpers/contact_helper.dart';
 import 'package:agendadecontatos/ui/contact_page.dart';
-import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+//import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.red,
       ),
       body: ListView.builder(
+        shrinkWrap: true,
         padding: EdgeInsets.all(10.0),
         itemCount: contacts.length,
         itemBuilder: (context, index) {
@@ -74,11 +75,11 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: EdgeInsets.only(left: 10.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(contacts[index].name ?? "",
+                   Text(contacts[index].name ?? "",
                       style: TextStyle(fontSize: 22.0,
-                          fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.bold),
                     ),
                     Text(contacts[index].email ?? "",
                       style: TextStyle(fontSize: 18.0),
@@ -92,8 +93,61 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         onTap: () {
-          _showContactPage(contact: contacts[index]);
+          //_showContactPage(contact: contacts[index]);
+          _showOption(context, index);
         },
+      );
+    }
+
+    void _showOption(BuildContext context, int index) {
+      showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return BottomSheet(
+            onClosing: () {},
+            builder: (context) {
+              return Container(
+                padding: EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: FlatButton(
+                          onPressed: (){},
+                          child: Text("Ligar", style: TextStyle(color: Colors.red, fontSize: 20.0),)
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: FlatButton(
+                          onPressed: (){
+                            Navigator.pop(context);
+                            _showContactPage(contact: contacts[index]);
+                          },
+                          child: Text("Editar", style: TextStyle(color: Colors.red, fontSize: 20.0),)
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: FlatButton(
+                          onPressed: (){
+                            contactHelp.deleteContact(contacts[index].id!);
+                            setState(() {
+                              contacts.removeAt(index);
+                              Navigator.pop(context);
+                            });
+                          },
+                          child: Text("Excluir", style: TextStyle(color: Colors.red, fontSize: 20.0),)
+                      ),
+                    )
+                  ],
+
+                ),
+              );
+            }
+          );
+        }
       );
     }
 
