@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:agendadecontatos/helpers/contact_helper.dart';
 import 'package:agendadecontatos/ui/contact_page.dart';
-//import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -114,7 +114,10 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: FlatButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            launch("tel:${contacts[index].phone}");
+                            Navigator.pop(context);
+                          },
                           child: Text("Ligar", style: TextStyle(color: Colors.red, fontSize: 20.0),)
                       ),
                     ),
@@ -142,7 +145,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                     )
                   ],
-
                 ),
               );
             }
