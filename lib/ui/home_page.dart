@@ -5,6 +5,8 @@ import 'package:agendadecontatos/helpers/contact_helper.dart';
 import 'package:agendadecontatos/ui/contact_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+enum OrderOptions {orderaz,orderza}
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -32,6 +34,21 @@ class _HomePageState extends State<HomePage> {
         title: Text("Contatos"),
         backgroundColor: Colors.red,
         centerTitle: true,
+        actions: <Widget>[
+          PopupMenuButton<OrderOptions>(
+            itemBuilder: (context) => <PopupMenuEntry<OrderOptions>>[
+              const PopupMenuItem(
+                child: Text("Ordenar A-Z"),
+                value: OrderOptions.orderaz,
+              ),
+              const PopupMenuItem(
+                child: Text("Ordenar Z-A"),
+                value: OrderOptions.orderza,
+              ),
+            ],
+            onSelected: _OrderList,
+          )
+        ],
       ),
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
@@ -173,5 +190,21 @@ class _HomePageState extends State<HomePage> {
           contacts = list;
         });
       });
+    }
+
+    void _OrderList(OrderOptions result) {
+      switch(result) {
+        case OrderOptions.orderaz:
+          contacts.sort((a, b) {
+            return a.name!.toLowerCase().compareTo(b.name!.toLowerCase());
+          });
+          break;
+        case OrderOptions.orderza:
+          contacts.sort((a, b) {
+           return b.name!.toLowerCase().compareTo(a.name!.toLowerCase());
+          });
+          break;
+      }
+      setState(() {});
     }
   }

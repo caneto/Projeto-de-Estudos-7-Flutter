@@ -78,8 +78,8 @@ class _ContactPageState extends State<ContactPage> {
                     image: DecorationImage(
                         image: _editContact!.img != null
                             ? FileImage(File(_editContact!.img!))
-                            : const AssetImage("images/person.png") as ImageProvider
-
+                            : const AssetImage("images/person.png") as ImageProvider,
+                        fit: BoxFit.cover
                     ),
                   ),
                 ),
